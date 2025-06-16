@@ -54,13 +54,29 @@ def buscar_arxiv_bibtex(query, max_results=10, arquivo="arxiv_api_results.bib"):
 
 if __name__ == "__main__":
     # Lista de queries simples para buscar em sequência
+    network_terms = [
+        '"network science"',
+        '"complex network"',
+        '"network analysis"',
+        '"graph theory"',
+        '"graph-based analysis"',
+        '"graph mining"',
+        '"topological analysis"',
+        '"connectivity analysis"',
+        '"community detection"'
+    ]
+
+    infarto_terms = [
+        '"acute myocardial infarction"',
+        '"myocardial infarction"',
+        '"heart attack"',
+        '"cardiac event"',
+        '"cardiac infarction"',
+        '"AMI"'
+    ]       
+
     queries = [
-        'all:"myocardial infarction"',
-        'all:"heart attack"',
-        'all:"network science"',
-        'all:"complex network"',
-        'all:"network analysis"',
-        'all:"graph theory"'
+        f'all:({n}) AND ({i})' for n in network_terms for i in infarto_terms
     ]
 
     arquivo_saida = "arxiv_api_results.bib"
@@ -70,7 +86,7 @@ if __name__ == "__main__":
 
     total_geral = 0
     for q in queries:
-        total = buscar_arxiv_bibtex(q, max_results=10, arquivo=arquivo_saida)
+        total = buscar_arxiv_bibtex(q, max_results=1000, arquivo=arquivo_saida)
         total_geral += total
         time.sleep(3)  # pausa para evitar bloqueio por excesso de requisições
 
